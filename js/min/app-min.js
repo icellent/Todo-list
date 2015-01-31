@@ -1,0 +1,1 @@
+var taskInput=document.getElementById("new-task"),addButton=document.getElementsByTagName("button")[0],IncompleteTaskHolder=document.getElementById("incomplete-tasks"),completeTaskHolder=document.getElementById("completed-tasks"),addTask=function(){},editTask=function(){},deleteTask=function(){},taskCompleted=function(){},taskIncomplete=function(){};
