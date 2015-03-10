@@ -1,3 +1,2 @@
 # Todo-list
-### JS todlist without server interaction
-#### 纯JS 的todo list, 初次尝试，学自teamtreehouse
+初次尝试使用纯js做的简单代办任务列表
