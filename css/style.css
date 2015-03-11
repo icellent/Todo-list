@@ -1,8 +1,8 @@
-/* Basic Style */
+/* bs */
 body {
   background: #fff;
   color: #333;
-  font-family: Lato, sans-serif;
+  font-family: Arial, sans-serif;
 }
 .container {
   display: block;
@@ -63,7 +63,7 @@ input[type="text"]:focus {
   color: #333;
 }
 
-/* New Task */
+/* xinrw */
 label[for='new-task'] {
   display: block;
   margin: 0 0 20px;
@@ -76,7 +76,7 @@ p > button:hover {
   color: #0FC57C;
 }
 
-/* Task list */
+/* lb */
 li {
   overflow: hidden;
   padding: 20px 0;
@@ -100,13 +100,13 @@ li > .delete:hover {
   color: #CF2323;
 }
 
-/* Completed */
+/* w */
 #completed-tasks label {
   text-decoration: line-through;
   color: #888;
 }
 
-/* Edit Task */
+/* e */
 ul li input[type=text] {
   display:none;
 }

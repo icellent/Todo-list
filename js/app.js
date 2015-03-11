@@ -1,99 +1,41 @@
-var addButton = document.getElementById("addTaskButton");
-var incompleteTaskItem = document.getElementById("incomplete-tasks");
-var completeTaskItem = document.getElementById("completed-tasks");
-var taskInput = document.getElementById("new-task");
-
-function addListItem(inputValue) {
-    var listItem = document.createElement('li');
-    var checkBox = document.createElement('input');
-    var labelText = document.createElement('label');
-    var inputText = document.createElement('input');
-    var editButton = document.createElement('button');
-    var deleteButton = document.createElement('button');
-
-    checkBox.type = "checkbox";
-    labelText.innerText = inputValue;
-    inputText.type = "text";
-    editButton.innerText = "Edit";
-    editButton.className = "edit";
-    deleteButton.innerText = "Delete";
-    deleteButton.className = "delete";
-
-    listItem.appendChild(checkBox);
-    listItem.appendChild(labelText);
-    listItem.appendChild(inputText);
-    listItem.appendChild(editButton);
-    listItem.appendChild(deleteButton);
-
-    return listItem;
-}
-
-function addTask() {
-    var listItem = addListItem(taskInput.value);
-    incompleteTaskItem.appendChild(listItem);
-    bindEventTask(listItem, incompleteTask);
-    taskInput.value = "";
-}
-
-function editTask() {
-    console.log("edit task");
-    var listItem = this.parentNode;
-    var labelText = listItem.querySelector("label");
-    var inputText = listItem.querySelector("input[type=text]");
-    var editButton = listItem.querySelector("button.edit");
-    if (listItem.classList.contains("editMode")) {
-        labelText.innerText = inputText.value;
-    } else {
-        inputText.value = labelText.innerText;
-    }
-
-    listItem.classList.toggle("editMode");
-    if (editButton.innerText === "Edit") {
-        editButton.innerText = "Save";
-    } else {
-        editButton.innerText = "Edit";
-    }
-}
-
-function deleteTask() {
-    console.log("delet task");
-    var listItem = this.parentNode;
-    var ul = listItem.parentNode;
-    ul.removeChild(listItem);
-}
-
-function incompleteTask() {
-    console.log("incomplete task");
-    var listItem = this.parentNode;
-    completeTaskItem.appendChild(listItem);
-    bindEventTask(listItem, completeTask);
-}
-
-function completeTask() {
-    console.log("complete task");
-    var listItem = this.parentNode;
-    incompleteTaskItem.appendChild(listItem);
-    bindEventTask(listItem, incompleteTask);
-}
-
-addButton.onclick = addTask;
-
-function bindEventTask(taskItemList, eventhandler) {
-    var checkBox = taskItemList.querySelector("input[type=checkbox]");
-    var editButton = taskItemList.querySelector("button.edit");
-    var deleteButton = taskItemList.querySelector("button.delete");
-
-    checkBox.onchange = eventhandler;
-    editButton.onclick = editTask;
-    deleteButton.onclick = deleteTask;
-}
-var incompleteListItem = incompleteTaskItem.children;
-var completeListItem = completeTaskItem.children;
+$(document).ready(function(){
+    // addTask
+    $('#addTaskButton').on('click', function () {
+        var $listItem = $('<li>');
+        $listItem.append('<input type="checkbox">');
+        $listItem.append('<label>' +$('#new-task').val() + '</label>');
+        $listItem.append('<input type="text">');
+        $listItem.append('<button class="edit">编辑</button>');
+        $listItem.append('<button class="delete">删除</button>');
+        $('#incomplete-tasks').prepend($listItem);
+        $('#new-task').val("");
+    });
+    // append to completed
+    $('#incomplete-tasks').on('change', 'input[type=checkbox]', function () {
+        $(this).parent().find('button.edit').remove();
+        $('#completed-tasks').append($(this).parent());
+    }).on('click', 'button.edit', function () {
+        var listItem = $(this).parent();
+        if (listItem.hasClass('editMode')) {
+            listItem.removeClass('editMode');
+            listItem.find('label').text(listItem.find('input[type=text]').val());
+            $(this).text('编辑');
+        }
+        else {
+            listItem.addClass('editMode');
+            listItem.find('input[type=text]').val(listItem.find('label').text());
+            $(this).text('保存');
+        }
+    }).on('click', 'button.delete', function () {
+        $(this).parent().detach();
+    });
+    // append to incomplete
+    $('#completed-tasks').on('change', 'input[type=checkbox]', function () {
+        $(this).parent().find('button.delete').before('<button class="edit">编辑</button>')
+        $('#incomplete-tasks').append($(this).parent());
+    }).on('click', 'button.delete', function () {
+        $(this).parent().detach();
+    });
 
 
-for (var i = 0; i < incompleteListItem.length; i++) {
-    bindEventTask(incompleteListItem[i], incompleteTask);
-}
-for (var i = 0; i < completeListItem.length; i++) {
-    bindEventTask(completeListItem[i], completeTask);
-}
+});
